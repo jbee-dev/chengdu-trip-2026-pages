@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jbee-trip-editor",
+  "main": "dist/index.js",
+  "no_bundle": true,
+  "compatibility_date": "2026-08-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "vars": {
+    "EDITOR_URL": "https://jbee-dev.github.io/chengdu-trip-2026-pages/admin.html",
+    "GITHUB_CLIENT_ID": "Ov23li5t96aIJOtYTLpM"
+  },
+  "secrets": {
+    "required": ["GITHUB_CLIENT_SECRET", "SESSION_SECRET"]
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 0.01,
+      "invocation_logs": false
+    },
+    "traces": {
+      "enabled": false
+    }
+  }
+}
