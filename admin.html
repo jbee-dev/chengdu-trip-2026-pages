@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="trip-editor-worker" content="https://jbee-trip-editor.mydrim.workers.dev">
+  <title>여행 페이지 편집기</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #222522;
+      --muted: #68716a;
+      --line: #d8ddd8;
+      --paper: #f6f7f4;
+      --panel: #ffffff;
+      --accent: #3f6755;
+      --accent-dark: #294638;
+      --warning: #8b5b2d;
+      --danger: #9b3f3f;
+      font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; background: var(--paper); color: var(--ink); overflow: hidden; }
+    button, select, input { font: inherit; }
+    button, select, input[type="text"] { min-height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
+    button { padding: 0 13px; cursor: pointer; font-weight: 700; }
+    button:hover:not(:disabled) { border-color: #9eaaa1; background: #f7f9f7; }
+    button:disabled { opacity: .46; cursor: not-allowed; }
+    button.primary { border-color: var(--accent); background: var(--accent); color: #fff; }
+    button.primary:hover:not(:disabled) { background: var(--accent-dark); }
+    button.quiet { background: transparent; }
+    select, input[type="text"] { padding: 0 10px; }
+    .app { height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; }
+    header { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 220px; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; background: #dfe9e2; color: var(--accent-dark); font-weight: 900; }
+    h1 { margin: 0; font-size: 17px; line-height: 1.2; }
+    .sub { margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .controls { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+    .controls label { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .controls select { min-width: 150px; }
+    .actions { margin-left: auto; display: flex; gap: 8px; }
+    .toolbar { display: flex; gap: 6px; padding: 8px 16px; border-bottom: 1px solid var(--line); background: #eef1ed; overflow-x: auto; }
+    .toolbar button { min-width: 40px; min-height: 34px; padding: 0 10px; background: var(--panel); }
+    .toolbar .sep { width: 1px; margin: 3px 4px; background: var(--line); flex: 0 0 auto; }
+    main { position: relative; min-height: 0; padding: 12px; }
+    .stage { width: 100%; height: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; box-shadow: 0 3px 14px rgba(26, 35, 29, .07); }
+    iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+    .empty { position: absolute; inset: 12px; display: grid; place-items: center; text-align: center; color: var(--muted); pointer-events: none; }
+    .empty strong { display: block; margin-bottom: 7px; color: var(--ink); font-size: 18px; }
+    .empty[hidden] { display: none; }
+    footer { min-height: 42px; display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-top: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 13px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #9da59f; flex: 0 0 auto; }
+    .dot.ok { background: #4c7b60; }
+    .dot.busy { background: #bd823c; }
+    .dot.error { background: var(--danger); }
+    .grow { flex: 1; }
+    #commitMessage { width: min(360px, 34vw); }
+    .changed { color: var(--warning); font-weight: 700; }
+    .modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(28, 31, 29, .48); }
+    .modal[hidden] { display: none; }
+    .dialog { width: min(430px, 100%); padding: 24px; border-radius: 12px; background: var(--panel); box-shadow: 0 18px 55px rgba(0,0,0,.22); }
+    .dialog h2 { margin: 0 0 8px; font-size: 21px; }
+    .dialog p { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    @media (max-width: 760px) {
+      header { align-items: stretch; flex-direction: column; gap: 10px; }
+      .brand { min-width: 0; }
+      .controls { display: grid; grid-template-columns: 1fr 1fr; }
+      .controls label { display: none; }
+      .controls select { min-width: 0; width: 100%; }
+      .actions { margin-left: 0; grid-column: 1 / -1; }
+      .actions button { flex: 1; }
+      main { padding: 6px; }
+      .empty { inset: 6px; }
+      footer { flex-wrap: wrap; }
+      #commitMessage { order: 3; width: 100%; }
+      .stage { border-radius: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="brand-mark">旅</div>
+        <div><h1>여행 페이지 편집기</h1><div class="sub">화면의 글자를 눌러 바로 수정하세요</div></div>
+      </div>
+      <div class="controls">
+        <label for="repo">여행</label>
+        <select id="repo" aria-label="여행 선택">
+          <option value="chengdu-trip-2026-pages">청두 가족여행</option>
+          <option value="bali-trip-2026-pages">발리·길리 여행</option>
+        </select>
+        <label for="page">페이지</label>
+        <select id="page" aria-label="페이지 선택"></select>
+        <div class="actions">
+          <button id="login" type="button">GitHub 로그인</button>
+          <button id="load" type="button">불러오기</button>
+          <button id="publish" class="primary" type="button" disabled>게시하기</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="toolbar" aria-label="글 편집 도구">
+      <button type="button" data-command="bold" title="굵게"><strong>굵게</strong></button>
+      <button type="button" data-command="italic" title="기울임"><em>기울임</em></button>
+      <button type="button" data-command="underline" title="밑줄"><u>밑줄</u></button>
+      <span class="sep"></span>
+      <button type="button" data-command="formatBlock" data-value="h2">큰 제목</button>
+      <button type="button" data-command="formatBlock" data-value="h3">작은 제목</button>
+      <button type="button" data-command="formatBlock" data-value="p">본문</button>
+      <span class="sep"></span>
+      <button type="button" data-command="insertUnorderedList">목록</button>
+      <button type="button" data-command="createLink">링크</button>
+      <span class="sep"></span>
+      <button type="button" data-command="undo">실행 취소</button>
+      <button type="button" data-command="redo">다시 실행</button>
+    </div>
+
+    <main>
+      <div class="stage"><iframe id="preview" title="편집 중인 여행 페이지" sandbox="allow-same-origin"></iframe></div>
+      <div id="empty" class="empty"><div><strong>먼저 GitHub에 로그인해 주세요</strong>로그인 후 페이지를 불러오면 이곳에서 바로 고칠 수 있어요.</div></div>
+    </main>
+
+    <footer>
+      <span id="dot" class="dot"></span>
+      <span id="status">로그인 대기 중</span>
+      <span id="changed" class="changed" hidden>저장하지 않은 변경 있음</span>
+      <span class="grow"></span>
+      <input id="commitMessage" type="text" maxlength="120" placeholder="게시 메모 (선택)">
+    </footer>
+  </div>
+
+  <div id="publishModal" class="modal" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="publishTitle">
+      <h2 id="publishTitle">이 변경을 게시할까요?</h2>
+      <p>게시하면 GitHub에 새 버전이 저장되고, 잠시 뒤 가족이 보는 여행 페이지에도 반영됩니다.</p>
+      <div class="dialog-actions">
+        <button id="cancelPublish" type="button">취소</button>
+        <button id="confirmPublish" class="primary" type="button">게시하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+      const WORKER = document.querySelector('meta[name="trip-editor-worker"]').content.replace(/\/$/, "");
+      const PAGES = {
+        "chengdu-trip-2026-pages": [{ value: "index.html", label: "가족여행 안내" }],
+        "bali-trip-2026-pages": [
+          { value: "index.html", label: "공유용 가이드" },
+          { value: "plan.html", label: "상세 일정" }
+        ]
+      };
+      const $ = (id) => document.getElementById(id);
+      const repo = $("repo");
+      const page = $("page");
+      const frame = $("preview");
+      const empty = $("empty");
+      const loginButton = $("login");
+      const loadButton = $("load");
+      const publishButton = $("publish");
+      const status = $("status");
+      const dot = $("dot");
+      const changedLabel = $("changed");
+      const message = $("commitMessage");
+      const modal = $("publishModal");
+      let session = sessionStorage.getItem("tripEditorSession") || "";
+      let baseCommit = "";
+      let originalHtml = "";
+      let dirty = false;
+      let loading = false;
+
+      function setStatus(text, kind = "") {
+        status.textContent = text;
+        dot.className = `dot ${kind}`;
+      }
+
+      function setDirty(value) {
+        dirty = value;
+        changedLabel.hidden = !value;
+        publishButton.disabled = !baseCommit || loading || !value;
+      }
+
+      function setBusy(value) {
+        loading = value;
+        loadButton.disabled = value;
+        loginButton.disabled = value;
+        repo.disabled = value;
+        page.disabled = value;
+        publishButton.disabled = value || !baseCommit || !dirty;
+      }
+
+      function updatePages(preferred) {
+        page.replaceChildren(...PAGES[repo.value].map(({ value, label }) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = label;
+          return option;
+        }));
+        if (preferred && PAGES[repo.value].some((item) => item.value === preferred)) page.value = preferred;
+      }
+
+      function currentReturnUrl() {
+        const url = new URL(location.href);
+        url.searchParams.set("repo", repo.value);
+        url.searchParams.set("path", page.value);
+        url.hash = "";
+        return url.toString();
+      }
+
+      function beginLogin() {
+        if (WORKER.includes("REPLACE_ME")) {
+          setStatus("편집 서비스 주소가 아직 설정되지 않았습니다.", "error");
+          return;
+        }
+        location.href = `${WORKER}/auth/start?return=${encodeURIComponent(currentReturnUrl())}`;
+      }
+
+      async function api(path, options = {}) {
+        const headers = new Headers(options.headers || {});
+        if (session) headers.set("Authorization", `Bearer ${session}`);
+        const response = await fetch(`${WORKER}${path}`, { ...options, headers });
+        if (!response.ok) {
+          let detail = {};
+          try { detail = await response.json(); } catch { /* use fallback below */ }
+          const error = new Error(detail.message || `요청 실패 (${response.status})`);
+          error.status = response.status;
+          throw error;
+        }
+        return response;
+      }
+
+      function editorDocument() {
+        const doc = frame.contentDocument;
+        if (!doc) throw new Error("편집 화면을 읽지 못했습니다.");
+        return doc;
+      }
+
+      function attachEditor() {
+        const doc = editorDocument();
+        doc.designMode = "on";
+        const base = doc.createElement("base");
+        base.href = `https://jbee-dev.github.io/${repo.value}/`;
+        base.dataset.tripEditorBase = "true";
+        doc.head.prepend(base);
+        doc.addEventListener("input", () => setDirty(true));
+        doc.addEventListener("click", (event) => {
+          const link = event.target.closest && event.target.closest("a");
+          if (link) event.preventDefault();
+        });
+        doc.addEventListener("keydown", (event) => {
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+            event.preventDefault();
+            if (!publishButton.disabled) modal.hidden = false;
+          }
+        });
+        empty.hidden = true;
+        setDirty(false);
+        setStatus("페이지를 불러왔습니다. 글자를 눌러 수정하세요.", "ok");
+      }
+
+      async function loadPage() {
+        if (!session) return beginLogin();
+        if (dirty && !confirm("지금 수정한 내용이 사라집니다. 다른 페이지를 불러올까요?")) return;
+        setBusy(true);
+        setStatus("GitHub에서 최신 페이지를 불러오는 중…", "busy");
+        try {
+          const params = new URLSearchParams({ repo: repo.value, path: page.value, branch: "main" });
+          const response = await api(`/api/file?${params}`);
+          originalHtml = await response.text();
+          baseCommit = response.headers.get("X-Commit-Sha") || "";
+          frame.onload = () => attachEditor();
+          frame.srcdoc = originalHtml;
+          const url = new URL(location.href);
+          url.searchParams.set("repo", repo.value);
+          url.searchParams.set("path", page.value);
+          history.replaceState(null, "", url);
+        } catch (error) {
+          if (error.status === 401) {
+            session = "";
+            sessionStorage.removeItem("tripEditorSession");
+            setStatus("로그인이 만료되었습니다. 다시 로그인해 주세요.", "error");
+          } else {
+            setStatus(error.message, "error");
+          }
+          baseCommit = "";
+          setDirty(false);
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      function serializePage() {
+        const doc = editorDocument();
+        doc.querySelectorAll("base[data-trip-editor-base]").forEach((node) => node.remove());
+        doc.designMode = "off";
+        const html = `<!doctype html>\n${doc.documentElement.outerHTML}`;
+        doc.designMode = "on";
+        const base = doc.createElement("base");
+        base.href = `https://jbee-dev.github.io/${repo.value}/`;
+        base.dataset.tripEditorBase = "true";
+        doc.head.prepend(base);
+        return html;
+      }
+
+      async function publish() {
+        modal.hidden = true;
+        setBusy(true);
+        setStatus("새 버전을 GitHub에 게시하는 중…", "busy");
+        try {
+          const html = serializePage();
+          const response = await api("/api/file", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              repo: repo.value,
+              path: page.value,
+              branch: "main",
+              baseCommit,
+              html,
+              message: message.value.trim()
+            })
+          });
+          const result = await response.json();
+          baseCommit = result.commit;
+          originalHtml = html;
+          message.value = "";
+          setDirty(false);
+          setStatus("게시 완료! 여행 페이지에는 보통 1~2분 안에 반영됩니다.", "ok");
+        } catch (error) {
+          setStatus(error.message, "error");
+          if (error.status === 409) baseCommit = "";
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      function runCommand(button) {
+        if (!baseCommit) return;
+        const command = button.dataset.command;
+        let value = button.dataset.value || null;
+        if (command === "createLink") {
+          value = prompt("연결할 웹 주소를 입력하세요", "https://");
+          if (!value) return;
+        }
+        editorDocument().execCommand(command, false, value);
+        frame.contentWindow.focus();
+        setDirty(true);
+      }
+
+      const fragment = new URLSearchParams(location.hash.slice(1));
+      if (fragment.has("session")) {
+        session = fragment.get("session");
+        sessionStorage.setItem("tripEditorSession", session);
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+      const initial = new URLSearchParams(location.search);
+      if (PAGES[initial.get("repo")]) repo.value = initial.get("repo");
+      updatePages(initial.get("path"));
+
+      repo.addEventListener("change", () => { updatePages(); baseCommit = ""; setDirty(false); empty.hidden = false; });
+      page.addEventListener("change", () => { baseCommit = ""; setDirty(false); empty.hidden = false; });
+      loginButton.addEventListener("click", beginLogin);
+      loadButton.addEventListener("click", loadPage);
+      publishButton.addEventListener("click", () => { modal.hidden = false; });
+      $("cancelPublish").addEventListener("click", () => { modal.hidden = true; });
+      $("confirmPublish").addEventListener("click", publish);
+      modal.addEventListener("click", (event) => { if (event.target === modal) modal.hidden = true; });
+      document.querySelectorAll(".toolbar button").forEach((button) => button.addEventListener("click", () => runCommand(button)));
+      window.addEventListener("beforeunload", (event) => { if (dirty) { event.preventDefault(); event.returnValue = ""; } });
+      window.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+          event.preventDefault();
+          if (!publishButton.disabled) modal.hidden = false;
+        }
+      });
+
+      if (session) {
+        loginButton.textContent = "다시 로그인";
+        setStatus("로그인됨. 페이지를 불러오세요.", "ok");
+        loadPage();
+      }
+    })();
+  </script>
+</body>
+</html>
