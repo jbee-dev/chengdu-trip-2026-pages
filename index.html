@@ -16,7 +16,7 @@
   --sunk: #EDF1E9;
   --ink: #1B241E;
   --ink-2: #4C5B51;
-  --ink-3: #7C8A80;
+  --ink-3: #657369;
   --rule: #DCE3D8;
   --rule-strong: #C0CCBD;
   --accent: #2E6B4E;
@@ -66,7 +66,7 @@ body {
   background: var(--ground);
   color: var(--ink);
   font-family: var(--sans);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
   word-break: keep-all;
@@ -74,8 +74,90 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--ground);
+  padding: 0.75rem 1rem;
+  border: 0;
+}
+.skip-link:focus { top: 1rem; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--ground) 94%, transparent);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(14px);
+}
+.topbar-inner {
+  max-width: 70rem;
+  min-height: 4rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.brand {
+  flex: 0 0 auto;
+  color: var(--ink);
+  border: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.topnav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+}
+.topnav a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-2);
+  border: 0;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.topnav a:hover { color: var(--ink); }
+.share-button, .button-link {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.6rem 0.9rem;
+  font: 500 0.875rem/1 var(--sans);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.share-button:hover, .button-link:hover { border-color: var(--accent); }
+.share-button:focus-visible, .button-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .page {
-  max-width: 80rem;
+  max-width: 70rem;
   margin: 0 auto;
   padding: 4.5rem 1.5rem 7rem;
   display: flex;
@@ -96,6 +178,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   color: var(--accent);
   text-transform: uppercase;
 }
+
+section { scroll-margin-top: 5.25rem; }
 
 h1 {
   font-family: var(--serif);
@@ -162,7 +246,8 @@ p { margin: 0; }
 .note { color: var(--ink-2); font-size: 0.9375rem; max-width: 46rem; }
 .check-mark { color: var(--warn); font-weight: 500; }
 
-.scroller { overflow-x: auto; }
+.scroller { position: relative; overflow-x: auto; scrollbar-width: thin; }
+.scroll-note { display: none; color: var(--ink-3); font-size: 0.8125rem; }
 
 table {
   width: 100%;
@@ -227,7 +312,7 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
 }
 .day:last-child { border-bottom: 1px solid var(--rule); }
 
-.stamp { display: flex; flex-direction: column; gap: 0.35rem; }
+.stamp { position: sticky; top: 5.5rem; align-self: start; display: flex; flex-direction: column; gap: 0.35rem; }
 .stamp .date {
   font-family: var(--mono);
   font-size: 1.125rem;
@@ -373,9 +458,33 @@ figcaption {
   border: 1px solid var(--rule);
 }
 
+.utility-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 1.4rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--rule-strong);
+}
+.utility-strip div { display: flex; flex-direction: column; gap: 0.15rem; }
+.utility-strip strong { font-size: 0.9375rem; font-weight: 600; }
+.utility-strip span { color: var(--ink-2); font-size: 0.875rem; }
+.utility-strip .button-link { border-color: var(--accent); color: var(--accent); }
+
+.day-details { width: 100%; }
+.day-details summary {
+  min-height: 2.75rem;
+  align-items: center;
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 600;
+}
+.day-details[open] summary { margin-bottom: 1rem; }
+
 @media (max-width: 40rem) {
   .hero img { aspect-ratio: 16 / 10; }
-  .day-photo img { aspect-ratio: 16 / 9; }
+  .day-photo { display: none; }
 }
 
 footer {
@@ -389,12 +498,31 @@ footer {
 }
 
 @media (max-width: 40rem) {
+  .topbar-inner { padding: 0 1rem; gap: 0.75rem; }
+  .brand { font-size: 0; }
+  .brand::after { content: "청두 2026"; font-size: 0.9375rem; }
+  .topnav {
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topnav::-webkit-scrollbar { display: none; }
+  .topnav a { padding: 0 0.65rem; }
+  .topnav a:not(:first-child):not(.prep-link) { display: none; }
+  .share-button { width: 2.75rem; padding: 0; font-size: 0; }
+  .share-button::before { content: "\2197"; font-size: 1rem; }
   .page { padding: 3rem 1.25rem 5rem; gap: 3.5rem; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1rem; }
   .day { grid-template-columns: 1fr; gap: 1rem; }
-  .stamp { flex-direction: row; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+  .stamp { position: static; flex-direction: row; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
   .stamp .place { border-top: none; padding-top: 0; margin-top: 0; }
   .check { grid-template-columns: 1fr; gap: 0.4rem; }
   .beats li { grid-template-columns: 3.75rem 1fr; gap: 0 0.75rem; }
+  .scroll-note { display: block; }
+  .utility-strip { align-items: stretch; flex-direction: column; }
+  .utility-strip .button-link { width: 100%; }
 }
 
 @media print {
@@ -412,6 +540,7 @@ footer {
     --warn: #8A3E14;
   }
   body { font-size: 11px; line-height: 1.55; }
+  .topbar, .skip-link, .utility-strip, .scroll-note { display: none !important; }
   .page { max-width: none; padding: 0; gap: 1.6rem; }
   section, .panel, .showcard, .day, .check, figure { break-inside: avoid; }
   h2 { break-after: avoid; }
@@ -426,9 +555,26 @@ footer {
 </head>
 <body>
 
-<div class="page">
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top">청두·구채구 2026</a>
+    <nav class="topnav" aria-label="주요 메뉴">
+      <a href="#schedule">일정</a>
+      <a href="#flights">항공</a>
+      <a href="#itinerary">날짜별 일정</a>
+      <a href="#jiuzhaigou">황룡·구채구</a>
+      <a href="#emergency">비상 연락</a>
+      <a class="prep-link" href="prepare.html">출발 전 준비</a>
+    </nav>
+    <button class="share-button" id="share-button" type="button">공유</button>
+  </div>
+</header>
+<div class="sr-only" id="share-status" aria-live="polite"></div>
 
-  <header class="masthead">
+<main class="page" id="main-content">
+
+  <header class="masthead" id="top">
     <div class="doc-kicker">Family Travel Itinerary · Chengdu &amp; Jiuzhaigou</div>
     <h1>청두·구채구 가족여행 일정표</h1>
     <p class="standfirst">청두 도심과 판다기지, 황룡과 구채구를 함께 둘러보는 6박 7일 가족여행 일정입니다. 항공·철도 이동, 날짜별 관광 동선, 입국 절차와 현지 이용 정보를 한 문서에 정리하였습니다.</p>
@@ -446,9 +592,18 @@ footer {
     <figcaption>구채구 오화해(五花海)는 계곡을 대표하는 호수로, 에메랄드빛 수면과 침엽수림이 어우러진 명소입니다.</figcaption>
   </figure>
 
-  <section>
+  <div class="utility-strip">
+    <div>
+      <strong>출발 전에 완료할 항목을 따로 정리하였습니다.</strong>
+      <span>입장권, 바우처, 결제·통신 설정과 입국카드 작성은 준비 페이지에서 확인합니다.</span>
+    </div>
+    <a class="button-link" href="prepare.html">출발 전 준비 보기</a>
+  </div>
+
+  <section id="schedule">
     <h2>01. 전체 일정</h2>
-    <div class="scroller">
+    <p class="scroll-note">표는 좌우로 밀어 전체 내용을 확인할 수 있습니다.</p>
+    <div class="scroller" tabindex="0" aria-label="전체 일정 표">
       <table>
         <thead>
           <tr><th>날짜</th><th>대상</th><th>주요 일정</th></tr>
@@ -467,7 +622,7 @@ footer {
     </div>
   </section>
 
-  <section>
+  <section id="highlights">
     <h2>02. 여행 하이라이트</h2>
     <div class="gallery">
       <figure>
@@ -493,9 +648,10 @@ footer {
     </div>
   </section>
 
-  <section>
+  <section id="flights">
     <h2>03. 항공 일정</h2>
-    <div class="scroller">
+    <p class="scroll-note">표는 좌우로 밀어 전체 내용을 확인할 수 있습니다.</p>
+    <div class="scroller" tabindex="0" aria-label="항공 일정 표">
       <table>
         <thead>
           <tr><th>날짜</th><th>구간</th><th>출발</th><th>도착</th><th>편명</th><th>탑승자</th></tr>
@@ -513,79 +669,11 @@ footer {
     <p class="note">국제선 출발 3시간 전 공항 도착을 기준으로 합니다. 부모님은 9월 8일 17:00까지 인천공항 제2터미널, 동생 부부는 9월 10일 19:30까지 제1터미널에 도착합니다. 귀국일에는 9월 14일 21:30까지 톈푸공항 제1터미널에 도착합니다.</p>
   </section>
 
-  <section>
-    <h2>04. 출발 전 준비 안내</h2>
-    <p class="note">원활한 현지 이동을 위해 아래 항목을 출국 전에 준비합니다. 여권 영문명과 여권번호는 모든 이용권에 동일하게 입력합니다.</p>
-    <div class="checks">
-      <div class="check urgent">
-        <div class="when">결제</div>
-        <div class="body">
-          <h3>알리페이 설치 및 실명 인증</h3>
-          <p>전원이 한국에서 Alipay 가입과 여권 실명 인증을 완료하고 해외 결제 가능 카드를 연결합니다. 인증에는 시간이 소요될 수 있으므로 출국 1~2주 전까지 완료하는 것이 안전합니다.</p>
-        </div>
-      </div>
-      <div class="check urgent">
-        <div class="when">통신</div>
-        <div class="body">
-          <h3>로밍 또는 eSIM 준비</h3>
-          <p>카카오톡과 국내 서비스를 안정적으로 이용하려면 통신사 로밍 또는 홍콩 경유 eSIM을 준비합니다. eSIM을 지원하지 않는 기종은 통신사 로밍을 이용하며, 한국에서 걸려오는 전화를 받아야 하는 휴대전화는 음성 로밍도 함께 설정합니다.</p>
-        </div>
-      </div>
-      <div class="check">
-        <div class="when">입장</div>
-        <div class="body">
-          <h3>판다기지 입장 안내</h3>
-          <p>일반 입장권은 방문일 14일 전부터 여권 정보로 예매할 수 있으며 성인 요금은 55위안입니다. 60세 이상은 여권 원본을 제시하면 무료로 입장할 수 있습니다.</p>
-        </div>
-      </div>
-      <div class="check">
-        <div class="when">황룡·구채구</div>
-        <div class="body">
-          <h3>황룡·구채구 이용 항목</h3>
-          <p>9월 12일은 황룡주자이역에서 황룡 관광지를 거쳐 구채구로 이동합니다. 셔틀 승차 장소와 하차 지점, 황룡 입장권 및 상행 케이블카 포함 여부는 이용 바우처를 기준으로 합니다. 9월 13일에는 구채구 입장권과 관광차 이용권, 황룡주자이역 이동 차량의 개별 바우처를 사용합니다.</p>
-        </div>
-      </div>
-      <div class="check">
-        <div class="when">출국 전</div>
-        <div class="body">
-          <h3>전자 입국카드 작성 및 서류 점검</h3>
-          <p>중국 도착 전에 공식 온라인 입국카드를 작성하고 발급 화면을 휴대전화에 저장합니다. 여권, 왕복 e-티켓, 숙소 정보, 여행자보험 증권과 비상용 현금을 함께 준비합니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section id="arrival">
+    <h2>04. 중국 입국 안내</h2>
+    <p class="note">대한민국 일반여권 소지자는 관광 목적으로 30일 이내 체류할 경우 <a href="https://cs.mfa.gov.cn/lh/lhqz_149493/cjwd/">2026년 12월 31일까지 무비자 입국</a>이 가능합니다. 입국 심사에는 여권과 온라인 입국카드 접수 화면을 준비합니다.</p>
 
-  <section>
-    <h2>05. 중국 입국 안내</h2>
-    <p class="note">중국 국가이민관리국은 2025년 11월 20일부터 외국인 온라인 입국카드 서비스를 운영하고 있습니다. 대한민국 일반여권 소지자는 관광 목적으로 30일 이내 체류할 경우 <a href="https://cs.mfa.gov.cn/lh/lhqz_149493/cjwd/">2026년 12월 31일까지 무비자 입국</a>이 가능합니다.</p>
-
-    <div class="panel">
-      <h3>온라인 입국카드 작성 순서</h3>
-      <ol>
-        <li>중국 국가이민관리국의 <a href="https://s.nia.gov.cn/ArrivalCardFillingPC/">공식 온라인 입국카드 페이지</a>에 접속합니다. 공식 서비스는 무료입니다.</li>
-        <li>여권 사진 페이지를 촬영해 올리면 이름·여권번호·생년월일이 자동 입력됩니다.</li>
-        <li>자동 입력된 정보를 여권 원본과 대조한 후 아래 표의 여행 정보를 입력합니다.</li>
-        <li>동반자 등록이 가능한 경우 가족 정보를 함께 입력합니다.</li>
-        <li>제출 후 표시되는 입국신고 접수 화면을 캡처하여 휴대전화에 저장합니다.</li>
-      </ol>
-    </div>
-
-    <div class="scroller">
-      <table class="kv">
-        <thead><tr><th>입력 항목</th><th>입력 내용</th></tr></thead>
-        <tbody>
-          <tr><td class="k">Purpose of Visit 입국 목적</td><td class="v">Tourism <span class="zh">(旅游 관광)</span></td></tr>
-          <tr><td class="k">Visa 비자</td><td class="v">Visa-Free <span class="zh">(免签 무비자)</span> 선택</td></tr>
-          <tr><td class="k">Flight No. 항공편명</td><td class="v">부모님 OZ323 · 동생 부부 CA442</td></tr>
-          <tr><td class="k">Port of Entry 입국 공항</td><td class="v">Chengdu Tianfu International Airport <span class="zh">(成都天府国际机场)</span></td></tr>
-          <tr><td class="k">Address in China 체류 주소</td><td class="v"><span class="zh">四川省成都市高新区（详细地址请看家族群）</span></td></tr>
-          <tr><td class="k">Contact 중국 내 연락처</td><td class="v">가족 공용 연락처</td></tr>
-          <tr><td class="k">Cities to Visit 방문 도시</td><td class="v">Chengdu, Jiuzhaigou</td></tr>
-          <tr><td class="k">Departure 출국 정보</td><td class="v">OZ324 · 2026-09-15</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="aside">온라인 작성을 완료하지 못한 경우 톈푸공항 입국장에서 제공되는 기기 또는 종이 입국카드를 이용할 수 있습니다.</div>
+    <div class="aside swap">온라인 입국카드 작성 방법과 입력 정보는 <a href="prepare.html#arrival-card">출발 전 준비 페이지</a>에 정리되어 있습니다.</div>
 
     <div class="panel">
       <h3>톈푸공항 입국 절차</h3>
@@ -615,8 +703,8 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>06. 현지 이용 카드</h2>
+  <section id="cards">
+    <h2>05. 현지 이용 카드</h2>
     <p class="note">개인정보 보호를 위해 공개 페이지에는 상세 숙소 주소와 가족 연락처를 표시하지 않습니다. 실제 이동 시 가족방에 공유된 비공개 주소 카드를 함께 사용합니다.</p>
     <div class="showcards">
       <div class="showcard">
@@ -652,8 +740,8 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>07. 결제·교통·통신 안내</h2>
+  <section id="local-use">
+    <h2>06. 결제·교통·통신 안내</h2>
     <div class="panel-grid">
       <div class="panel">
         <h3>알리페이 결제</h3>
@@ -677,7 +765,7 @@ footer {
         <h3>지도와 번역</h3>
         <ul>
           <li><strong>가오더지도(Amap)</strong>: 중국 내 대중교통과 차량 이동 경로 확인에 사용합니다.</li>
-          <li><strong>파파고</strong>: 출국 전에 중국어 간체 오프라인 언어팩을 내려받습니다. 메뉴판은 이미지 번역 기능을 이용할 수 있습니다.</li>
+          <li><strong>파파고</strong>: 메뉴판은 이미지 번역 기능을 이용할 수 있습니다.</li>
         </ul>
       </div>
       <div class="panel">
@@ -691,8 +779,8 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>08. 날짜별 상세 일정</h2>
+  <section id="itinerary">
+    <h2>07. 날짜별 상세 일정</h2>
     <div class="days">
 
       <div class="day">
@@ -847,8 +935,8 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>09. 황룡·구채구 이용 안내</h2>
+  <section id="jiuzhaigou">
+    <h2>08. 황룡·구채구 이용 안내</h2>
     <p class="note">구채구는 Y자 형태의 계곡으로 구성되어 있습니다. 입구에서 관광차를 이용해 상부로 이동한 뒤 눠르랑 센터를 기준으로 쩌차와구와 르쩌구를 나누어 관람합니다.</p>
 
     <figure class="day-photo">
@@ -933,14 +1021,14 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>10. 판다기지 이용 안내</h2>
+  <section id="panda">
+    <h2>09. 판다기지 이용 안내</h2>
     <div class="panel-grid">
       <div class="panel">
         <h3>기본 정보</h3>
         <ul>
           <li>성인 입장료는 55위안이며, 60세 이상은 여권 원본 제시 시 무료입니다. 개장 시각은 07:30입니다.</li>
-          <li>일반 입장권은 방문일 14일 전부터 여권 정보로 예매할 수 있으며, 입장 시 여권 원본이 필요합니다.</li>
+          <li>입장 시 여권 원본이 필요합니다. 입장권 준비 사항은 별도 준비 페이지에서 확인합니다.</li>
           <li>남문으로 입장한 후 내부 셔틀을 이용해 상부로 이동하고, 도보로 내려오며 관람하는 동선입니다.</li>
         </ul>
       </div>
@@ -955,8 +1043,8 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>11. 추천 식당</h2>
+  <section id="dining">
+    <h2>10. 추천 식당</h2>
     <p class="note">쓰촨 음식은 매운맛이 강한 편이지만 주문 시 “부야오라(不要辣, 맵지 않게)”라고 요청하면 맵기를 조절할 수 있습니다.</p>
     <ul class="picks">
       <li><strong>하이디라오 海底捞</strong><span class="heat mild">순한 선택 가능</span><br><span>토마토탕과 버섯탕 등 맵지 않은 육수를 함께 선택할 수 있어 가족 식사에 적합한 훠궈 체인입니다.</span></li>
@@ -968,8 +1056,8 @@ footer {
     </ul>
   </section>
 
-  <section>
-    <h2>12. 비상 연락 안내</h2>
+  <section id="emergency">
+    <h2>11. 비상 연락 안내</h2>
     <div class="panel-grid">
       <div class="panel">
         <h3>연락처</h3>
@@ -998,6 +1086,50 @@ footer {
     <p>사진: Wikimedia Commons (CC0·CC BY·CC BY-SA 라이선스) · 촬영자 정보는 README에 기재되어 있습니다.</p>
   </footer>
 
-</div>
+</main>
+<script>
+(() => {
+  const shareButton = document.querySelector('#share-button');
+  const shareStatus = document.querySelector('#share-status');
+
+  shareButton?.addEventListener('click', async () => {
+    const shareData = {
+      title: document.title,
+      text: '청두·구채구 가족여행 일정표',
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        shareStatus.textContent = '공유 메뉴를 열었습니다.';
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        shareStatus.textContent = '페이지 주소를 복사했습니다.';
+        shareButton.textContent = '복사됨';
+        window.setTimeout(() => { shareButton.textContent = '공유'; }, 1800);
+      }
+    } catch (error) {
+      if (error?.name !== 'AbortError') shareStatus.textContent = '주소를 복사하지 못했습니다.';
+    }
+  });
+
+  if (window.matchMedia('(max-width: 40rem)').matches) {
+    document.querySelectorAll('.day .content').forEach((content) => {
+      const heading = content.querySelector('h3');
+      if (!heading) return;
+
+      const details = document.createElement('details');
+      details.className = 'day-details';
+      const summary = document.createElement('summary');
+      summary.textContent = heading.textContent;
+      details.appendChild(summary);
+      heading.remove();
+      while (content.firstChild) details.appendChild(content.firstChild);
+      content.appendChild(details);
+    });
+  }
+})();
+</script>
 </body>
 </html>

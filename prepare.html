@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>청두·구채구 출발 전 준비</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #F6F8F4;
+  --surface: #FFFFFF;
+  --sunk: #EDF1E9;
+  --ink: #1B241E;
+  --ink-2: #4C5B51;
+  --ink-3: #657369;
+  --rule: #DCE3D8;
+  --rule-strong: #C0CCBD;
+  --accent: #2E6B4E;
+  --accent-soft: #E5F0E7;
+  --warn: #96491F;
+  --serif: "Gowun Batang", "Nanum Myeongjo", serif;
+  --sans: "IBM Plex Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --zh: "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0F1411;
+    --surface: #151C17;
+    --sunk: #1A231D;
+    --ink: #E3EAE4;
+    --ink-2: #B3C0B7;
+    --ink-3: #93A197;
+    --rule: #26312A;
+    --rule-strong: #455649;
+    --accent: #8AC5A3;
+    --accent-soft: #17281D;
+    --warn: #E2A274;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 16px/1.7 var(--sans);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.skip-link { position: fixed; top: -5rem; left: 1rem; z-index: 100; padding: 0.75rem 1rem; background: var(--ink); color: var(--ground); }
+.skip-link:focus { top: 1rem; }
+.topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--ground) 94%, transparent); border-bottom: 1px solid var(--rule); backdrop-filter: blur(14px); }
+.topbar-inner { max-width: 70rem; min-height: 4rem; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 1.5rem; }
+.brand { color: var(--ink); font: 700 1rem/1 var(--serif); white-space: nowrap; }
+.topnav { margin-left: auto; display: flex; align-items: center; gap: 0.25rem; }
+.topnav a { min-height: 2.75rem; padding: 0 0.7rem; display: inline-flex; align-items: center; color: var(--ink-2); font-size: 0.875rem; white-space: nowrap; }
+.topnav .guide-link { margin-left: 0.5rem; border: 1px solid var(--rule-strong); border-radius: 0.5rem; background: var(--surface); color: var(--ink); }
+.page { max-width: 70rem; margin: 0 auto; padding: 4.5rem 1.5rem 7rem; display: flex; flex-direction: column; gap: 4.5rem; }
+.masthead { display: flex; flex-direction: column; gap: 1.35rem; }
+.kicker { color: var(--accent); font: 500 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
+h1 { margin: 0; max-width: 50rem; font: 700 clamp(2.35rem, 6vw, 3.6rem)/1.15 var(--serif); letter-spacing: -0.015em; text-wrap: balance; }
+.lead { margin: 0; max-width: 48rem; color: var(--ink-2); font-size: 1.0625rem; }
+.status-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 1.4rem; background: var(--accent-soft); border: 1px solid var(--rule-strong); }
+.status-card strong { display: block; font-size: 1rem; }
+.status-card span { color: var(--ink-2); font-size: 0.875rem; }
+.progress { flex: 0 0 auto; color: var(--accent); font: 500 1rem/1 var(--mono); }
+section { display: flex; flex-direction: column; gap: 1.5rem; scroll-margin-top: 5.25rem; }
+h2 { margin: 0; padding-bottom: 0.75rem; border-bottom: 2px solid var(--ink); font: 700 1.6rem/1.3 var(--serif); }
+.note { margin: 0; max-width: 48rem; color: var(--ink-2); font-size: 0.9375rem; }
+.task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.task { min-height: 8.5rem; display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.9rem; align-items: start; padding: 1.35rem; background: var(--surface); border: 1px solid var(--rule); cursor: pointer; }
+.task:hover { border-color: var(--rule-strong); }
+.task input { width: 1.2rem; height: 1.2rem; margin: 0.2rem 0 0; accent-color: var(--accent); }
+.task-copy { display: flex; flex-direction: column; gap: 0.35rem; }
+.task-copy small { color: var(--accent); font: 500 0.75rem/1.4 var(--mono); letter-spacing: 0.05em; }
+.task-copy strong { font-size: 1rem; font-weight: 600; }
+.task-copy span { color: var(--ink-2); font-size: 0.9rem; }
+.task:has(input:checked) { background: var(--sunk); }
+.task:has(input:checked) .task-copy strong { text-decoration: line-through; color: var(--ink-3); }
+.panel { padding: 1.5rem; background: var(--surface); border: 1px solid var(--rule); }
+.panel ol { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; color: var(--ink-2); font-size: 0.9375rem; }
+.scroller { overflow-x: auto; scrollbar-width: thin; }
+.scroll-note { display: none; margin: 0; color: var(--ink-3); font-size: 0.8125rem; }
+table { width: 100%; min-width: 31rem; border-collapse: collapse; font-size: 0.9rem; }
+th { padding: 0 1rem 0.6rem 0; border-bottom: 1px solid var(--rule-strong); color: var(--ink-3); text-align: left; font: 500 0.6875rem/1.5 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; }
+td { padding: 0.85rem 1rem 0.85rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td:first-child { width: 12rem; color: var(--ink-3); white-space: nowrap; }
+td:last-child { font-family: var(--mono); }
+.zh { font-family: var(--zh); }
+.aside { padding: 0.15rem 0 0.15rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-2); font-size: 0.875rem; }
+.actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.reset-button { min-height: 2.75rem; padding: 0.6rem 0.9rem; border: 1px solid var(--rule-strong); border-radius: 0.5rem; background: var(--surface); color: var(--ink); font: 500 0.875rem/1 var(--sans); cursor: pointer; }
+footer { padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.8125rem; }
+@media (max-width: 40rem) {
+  .topbar-inner { padding: 0 1rem; gap: 0.6rem; }
+  .brand { font-size: 0.9375rem; }
+  .topnav { overflow-x: auto; scrollbar-width: none; }
+  .topnav a:not(.guide-link) { display: none; }
+  .page { padding: 3rem 1.25rem 5rem; gap: 3.5rem; }
+  .status-card, .actions { align-items: stretch; flex-direction: column; }
+  .task-list { grid-template-columns: 1fr; }
+  .task { min-height: 0; }
+  .scroll-note { display: block; }
+  .reset-button { width: 100%; }
+}
+@media print {
+  :root { --ground: #FFF; --surface: #FFF; --sunk: #F2F2F2; --ink: #111; --ink-2: #3D3D3D; --ink-3: #5F685F; --rule: #D9D9D9; --rule-strong: #B5B5B5; --accent: #205940; --accent-soft: #EDF3EE; }
+  body { font-size: 11px; line-height: 1.55; }
+  .topbar, .skip-link, .reset-button, .scroll-note { display: none !important; }
+  .page { max-width: none; padding: 0; gap: 1.6rem; }
+  .task-list { grid-template-columns: repeat(2, 1fr); }
+  .task, .panel, section { break-inside: avoid; }
+  .scroller { overflow: visible; }
+  table { min-width: 0; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">본문으로 바로가기</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">청두·구채구 2026</a>
+    <nav class="topnav" aria-label="준비 페이지 메뉴">
+      <a href="#booking">예약·바우처</a>
+      <a href="#setup">결제·통신</a>
+      <a href="#arrival-card">입국카드</a>
+      <a href="#documents">최종 점검</a>
+      <a class="guide-link" href="index.html">여행 일정표</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page" id="main-content">
+  <header class="masthead">
+    <div class="kicker">Pre-departure Checklist · Chengdu &amp; Jiuzhaigou</div>
+    <h1>청두·구채구 출발 전 준비</h1>
+    <p class="lead">예약, 바우처 확인, 결제·통신 설정과 입국 서류처럼 출발 전에 완료해야 하는 항목만 모은 준비 페이지입니다. 여행 중 확인할 확정 일정과 현지 안내는 메인 일정표에서 확인합니다.</p>
+    <div class="status-card" aria-live="polite">
+      <div><strong>준비 진행률</strong><span>체크 상태는 현재 브라우저에 자동으로 저장됩니다.</span></div>
+      <div class="progress" id="progress">0 / 10 완료</div>
+    </div>
+  </header>
+
+  <section id="booking">
+    <h2>01. 예약·바우처</h2>
+    <p class="note">확정되지 않은 시간이나 포함 항목은 임의로 기입하지 않고, 결제 완료 화면과 실제 바우처를 기준으로 확인합니다.</p>
+    <div class="task-list">
+      <label class="task"><input type="checkbox" data-task="panda-ticket"><span class="task-copy"><small>예약</small><strong>판다기지 입장권 예매</strong><span>9월 14일 방문권을 여권 정보로 예매합니다. 일반 입장권은 방문일 14일 전부터 판매되며 성인 요금은 55위안입니다. 60세 이상은 여권 원본 제시 시 무료입니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="huanglong-voucher"><span class="task-copy"><small>바우처</small><strong>황룡·구채구 이용 항목 확인</strong><span>9월 12일 셔틀 집합 장소와 하차 지점, 황룡 입장권·상행 케이블카 포함 여부를 바우처에서 확인하고 휴대전화에 저장합니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="jiuzhaigou-voucher"><span class="task-copy"><small>바우처</small><strong>구채구 관람·복귀 차량 확인</strong><span>9월 13일 구채구 입장권·관광차 이용권과 황룡주자이역 복귀 차량의 탑승 장소를 개별 바우처에서 확인합니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="insurance"><span class="task-copy"><small>보장</small><strong>여행자보험 가입 및 증권 저장</strong><span>여행 기간과 고산 지역 방문이 포함된 보장 내용을 확인하고 보험증권과 긴급 연락처를 휴대전화에 저장합니다.</span></span></label>
+    </div>
+  </section>
+
+  <section id="setup">
+    <h2>02. 결제·통신 설정</h2>
+    <div class="task-list">
+      <label class="task"><input type="checkbox" data-task="alipay"><span class="task-copy"><small>결제</small><strong>알리페이 실명 인증과 카드 연결</strong><span>전원이 Alipay 가입과 여권 실명 인증을 완료하고 해외 결제 가능 카드를 연결합니다. 출국 전 소액 결제 화면까지 확인합니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="data"><span class="task-copy"><small>통신</small><strong>로밍 또는 eSIM 준비</strong><span>휴대전화별 eSIM 지원 여부와 음성 통화 필요 여부를 확인합니다. 국내 전화를 받아야 하는 회선은 음성 로밍을 함께 설정합니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="apps"><span class="task-copy"><small>앱</small><strong>지도·번역 앱 설치</strong><span>가오더지도와 파파고를 설치하고 파파고 중국어 간체 오프라인 언어팩을 내려받습니다.</span></span></label>
+    </div>
+  </section>
+
+  <section id="arrival-card">
+    <h2>03. 온라인 입국카드</h2>
+    <p class="note">중국 국가이민관리국의 <a href="https://s.nia.gov.cn/ArrivalCardFillingPC/">공식 온라인 입국카드 페이지</a>에서 무료로 작성합니다. 여권 사진 페이지를 촬영해 등록한 뒤 자동 입력된 정보를 여권 원본과 대조합니다.</p>
+    <div class="panel">
+      <ol>
+        <li>여권 정보와 입국 목적을 입력합니다.</li>
+        <li>아래 표에 정리된 항공편과 체류 정보를 입력합니다.</li>
+        <li>동반자 등록이 가능한 경우 가족 정보를 함께 입력합니다.</li>
+        <li>제출 후 표시되는 접수 화면을 캡처하여 휴대전화에 저장합니다.</li>
+      </ol>
+    </div>
+    <p class="scroll-note">표는 좌우로 밀어 전체 내용을 확인할 수 있습니다.</p>
+    <div class="scroller" tabindex="0" aria-label="온라인 입국카드 입력 정보">
+      <table>
+        <thead><tr><th>입력 항목</th><th>입력 내용</th></tr></thead>
+        <tbody>
+          <tr><td>Purpose of Visit</td><td>Tourism <span class="zh">(旅游 관광)</span></td></tr>
+          <tr><td>Visa</td><td>Visa-Free <span class="zh">(免签 무비자)</span></td></tr>
+          <tr><td>Flight No.</td><td>부모님 OZ323 · 동생 부부 CA442</td></tr>
+          <tr><td>Port of Entry</td><td>Chengdu Tianfu International Airport <span class="zh">(成都天府国际机场)</span></td></tr>
+          <tr><td>Address in China</td><td><span class="zh">四川省成都市高新区（详细地址请看家族群）</span></td></tr>
+          <tr><td>Contact</td><td>가족 공용 연락처</td></tr>
+          <tr><td>Cities to Visit</td><td>Chengdu, Jiuzhaigou</td></tr>
+          <tr><td>Departure</td><td>OZ324 · 2026-09-15</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <label class="task"><input type="checkbox" data-task="arrival-card"><span class="task-copy"><small>입국 서류</small><strong>온라인 입국카드 작성 및 접수 화면 저장</strong><span>가족별 입력 내용을 확인한 후 접수 화면을 휴대전화와 가족방에 저장합니다.</span></span></label>
+    <div class="aside">온라인 작성을 완료하지 못한 경우 톈푸공항 입국장에서 제공되는 기기 또는 종이 입국카드를 이용할 수 있습니다.</div>
+  </section>
+
+  <section id="documents">
+    <h2>04. 출발 전 최종 점검</h2>
+    <div class="task-list">
+      <label class="task"><input type="checkbox" data-task="documents"><span class="task-copy"><small>서류</small><strong>여권·e-티켓·숙소 정보 저장</strong><span>여권 원본과 왕복 e-티켓, 숙소 정보, 이용 바우처, 여행자보험 증권을 오프라인에서도 열 수 있도록 저장합니다.</span></span></label>
+      <label class="task"><input type="checkbox" data-task="cash"><span class="task-copy"><small>비상용</small><strong>카드와 소액 현금 분산 보관</strong><span>해외 결제 카드와 비상용 위안화를 한곳에 모으지 않고 가족별로 나누어 보관합니다.</span></span></label>
+    </div>
+    <div class="actions">
+      <p class="note">완료된 항목은 이 기기에서 유지되며, 다른 기기와는 자동으로 동기화되지 않습니다.</p>
+      <button class="reset-button" id="reset-button" type="button">체크 상태 초기화</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>본 페이지는 청두·구채구 가족여행의 예약 및 출발 전 준비를 위한 별도 체크리스트입니다.</p>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const storageKey = 'chengdu-trip-preparation-v1';
+  const boxes = [...document.querySelectorAll('[data-task]')];
+  const progress = document.querySelector('#progress');
+  let saved = {};
+
+  try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (_) {}
+  boxes.forEach((box) => { box.checked = Boolean(saved[box.dataset.task]); });
+
+  const render = () => {
+    const completed = boxes.filter((box) => box.checked).length;
+    progress.textContent = `${completed} / ${boxes.length} 완료`;
+  };
+
+  const persist = () => {
+    const state = Object.fromEntries(boxes.map((box) => [box.dataset.task, box.checked]));
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    render();
+  };
+
+  boxes.forEach((box) => box.addEventListener('change', persist));
+  document.querySelector('#reset-button')?.addEventListener('click', () => {
+    boxes.forEach((box) => { box.checked = false; });
+    persist();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
