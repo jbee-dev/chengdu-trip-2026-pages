@@ -85,6 +85,9 @@ h2 { margin: 0; padding-bottom: 0; font: 700 1.6rem/1.3 var(--serif); }
 .task:has(input:checked) .task-copy strong { color: var(--ink-3); }
 .panel { padding: 1.5rem; background: var(--surface); }
 .panel ol { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; color: var(--ink-2); font-size: 0.9375rem; }
+.booking-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.booking-summary h3 { margin: 0; font: 600 1rem/1.4 var(--sans); }
+.booking-summary ul { margin: 0.85rem 0 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.55rem; color: var(--ink-2); font-size: 0.9rem; }
 .scroller { overflow-x: auto; scrollbar-width: thin; }
 .scroll-note { display: none; margin: 0; color: var(--ink-3); font-size: 0.8125rem; }
 table { width: 100%; min-width: 31rem; border-collapse: collapse; font-size: 0.9rem; }
@@ -106,6 +109,7 @@ footer { padding-top: 0; color: var(--ink-3); font-size: 0.8125rem; }
   h1 { font-size: 1.65rem; line-height: 1.25; letter-spacing: -0.04em; white-space: nowrap; }
   .status-card, .actions { align-items: stretch; flex-direction: column; }
   .task-list { grid-template-columns: 1fr; }
+  .booking-summary { grid-template-columns: 1fr; }
   .task { min-height: 0; }
   .scroll-note { display: block; }
   .reset-button { width: 100%; }
@@ -156,6 +160,29 @@ footer { padding-top: 0; color: var(--ink-3); font-size: 0.8125rem; }
       <label class="task"><input type="checkbox" data-task="jiuzhaigou-voucher"><span class="task-copy"><small>바우처</small><strong>구채구 관람·복귀 차량 확인</strong><span>9월 13일 구채구 입장권·관광차 이용권과 황룡주자이역 복귀 차량의 탑승 장소를 개별 바우처에서 확인합니다.</span></span></label>
       <label class="task"><input type="checkbox" data-task="insurance"><span class="task-copy"><small>보장</small><strong>여행자보험 가입 및 증권 저장</strong><span>여행 기간과 고산 지역 방문이 포함된 보장 내용을 확인하고 보험증권과 긴급 연락처를 휴대전화에 저장합니다.</span></span></label>
     </div>
+    <div class="booking-summary">
+      <div class="panel">
+        <h3>확정된 황룡·구채구 예약</h3>
+        <ul>
+          <li>9월 12일 11:40 황룡주자이역 출발 7인승 조인 셔틀, 5명</li>
+          <li>황룡 입장권 성인 3명과 시니어 2명, 상행 케이블카 5명</li>
+          <li>후이무윈 홀리데이 호텔 1박, 2베드룸 3침대 스위트 1실, 성인 5명</li>
+          <li>구채구 입장권과 관광차 이용권 성인 3명과 시니어 2명, 08:00~10:00 입장</li>
+          <li>9월 13일 16:00 구채구 입구 출발 7~9인승 비즈니스 차량, 5명</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>무료 취소 기준</h3>
+        <ul>
+          <li>9월 12일 조인 셔틀은 9월 11일 18:00까지입니다.</li>
+          <li>후이무윈 홀리데이 호텔은 9월 11일 23:59 전까지입니다.</li>
+          <li>9월 13일 역 복귀 차량은 9월 11일 12:00까지입니다.</li>
+          <li>황룡 입장권은 9월 18일 23:59까지, 구채구 입장권과 관광차 이용권은 9월 19일 23:59까지 무손실 취소로 표시됩니다.</li>
+          <li>황룡 상행 케이블카는 미사용 예약이면 언제든 취소할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">모든 시각은 예약 화면에 표시된 현지 시간 기준입니다. 입장권과 케이블카는 실제 사용 전에만 취소 여부를 판단합니다.</p>
   </section>
 
   <section id="setup">
