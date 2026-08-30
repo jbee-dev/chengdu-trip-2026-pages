@@ -91,7 +91,6 @@ body {
   top: 0;
   z-index: 20;
   background: color-mix(in srgb, var(--ground) 94%, transparent);
-  border-bottom: 1px solid var(--rule);
   backdrop-filter: blur(14px);
 }
 .topbar-inner {
@@ -165,8 +164,8 @@ body {
   gap: 4.5rem;
 }
 
-a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule-strong); word-break: break-all; }
-a:hover { border-bottom-color: var(--accent); }
+a { color: var(--accent); text-decoration: none; word-break: break-all; }
+a:hover { color: var(--ink); }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .masthead { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -188,7 +187,6 @@ h1 {
   line-height: 1.15;
   letter-spacing: -0.015em;
   margin: 0;
-  text-wrap: balance;
 }
 
 .standfirst {
@@ -202,8 +200,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
   gap: 1.75rem 2rem;
-  border-top: 1px solid var(--rule);
-  padding-top: 1.5rem;
+  padding-top: 0;
   margin: 0;
 }
 .fact { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -230,8 +227,7 @@ h2 {
   font-size: 1.6rem;
   line-height: 1.3;
   margin: 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0;
 }
 
 h3 {
@@ -281,15 +277,13 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
 .kv td.v { font-family: var(--mono); font-size: 0.875rem; word-break: break-all; }
 .kv td.v .zh { font-family: var(--zh); }
 
-.checks { display: flex; flex-direction: column; gap: 0; }
+.checks { display: flex; flex-direction: column; gap: 1rem; }
 .check {
   display: grid;
   grid-template-columns: 7.5rem 1fr;
   gap: 0 1.5rem;
   padding: 1.1rem 0;
-  border-bottom: 1px solid var(--rule);
 }
-.check:first-child { border-top: 1px solid var(--rule); }
 .when {
   font-family: var(--mono);
   font-size: 0.8125rem;
@@ -301,16 +295,14 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
 .check p { font-size: 0.9375rem; color: var(--ink-2); }
 .urgent .when { color: var(--warn); font-weight: 500; }
 
-.days { display: flex; flex-direction: column; gap: 0; }
+.days { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .day {
   display: grid;
   grid-template-columns: 8rem 1fr;
   gap: 0 2rem;
   padding: 2rem 0;
-  border-top: 1px solid var(--rule);
 }
-.day:last-child { border-bottom: 1px solid var(--rule); }
 
 .stamp { position: sticky; top: 5.5rem; align-self: start; display: flex; flex-direction: column; gap: 0.35rem; }
 .stamp .date {
@@ -325,9 +317,8 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
   font-size: 0.8125rem;
   color: var(--accent);
   letter-spacing: 0.02em;
-  border-top: 1px solid var(--rule);
-  padding-top: 0.35rem;
-  margin-top: 0.15rem;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .content { display: flex; flex-direction: column; gap: 1rem; }
@@ -353,14 +344,14 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
 }
 
 .aside {
-  border-left: 2px solid var(--rule-strong);
-  padding: 0.15rem 0 0.15rem 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--sunk);
   font-size: 0.875rem;
   color: var(--ink-2);
   max-width: 46rem;
 }
-.aside.flag { border-left-color: var(--warn); }
-.aside.swap { border-left-color: var(--accent); }
+.aside.flag strong { color: var(--warn); }
+.aside.swap a { font-weight: 500; }
 
 .panel {
   background: var(--surface);
@@ -415,7 +406,7 @@ td.who { color: var(--accent); white-space: nowrap; font-size: 0.875rem; }
   font-weight: 500;
   color: var(--ink);
 }
-.showcard .zh small { display: block; font-size: 1.05rem; font-weight: 400; color: var(--ink-2); margin-top: 0.3rem; }
+.showcard .zh small { display: inline; font-size: 1.05rem; font-weight: 400; color: var(--ink-2); margin-left: 0.25rem; }
 .showcard .ko { font-size: 0.875rem; color: var(--ink-2); }
 .showcard .tel { display: block; margin-top: 0.35rem; font-family: var(--mono); font-size: 1.25rem; letter-spacing: 0.04em; color: var(--accent); white-space: nowrap; }
 
@@ -488,8 +479,7 @@ figcaption {
 }
 
 footer {
-  border-top: 1px solid var(--rule);
-  padding-top: 1.5rem;
+  padding-top: 0;
   font-size: 0.8125rem;
   color: var(--ink-3);
   display: flex;
@@ -514,6 +504,7 @@ footer {
   .share-button { width: 2.75rem; padding: 0; font-size: 0; }
   .share-button::before { content: "\2197"; font-size: 1rem; }
   .page { padding: 3rem 1.25rem 5rem; gap: 3.5rem; }
+  h1 { font-size: 1.65rem; line-height: 1.25; letter-spacing: -0.04em; white-space: nowrap; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1rem; }
   .day { grid-template-columns: 1fr; gap: 1rem; }
   .stamp { position: static; flex-direction: row; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
@@ -724,7 +715,7 @@ footer {
       </div>
       <div class="showcard">
         <div class="label">시내 명소</div>
-        <div class="zh"><small>宽窄巷子 콴자이샹쯔 · 武侯祠 무후사<br>人民公园 인민공원 · 春熙路 춘시루</small></div>
+        <div class="zh"><small>宽窄巷子 콴자이샹쯔 · 武侯祠 무후사 · 人民公园 인민공원 · 春熙路 춘시루</small></div>
         <div class="ko">원하는 목적지를 가리켜 기사에게 제시합니다.</div>
       </div>
       <div class="showcard">
@@ -734,7 +725,7 @@ footer {
       </div>
       <div class="showcard">
         <div class="label">식당 주문</div>
-        <div class="zh">不要辣 <small>부야오라 — 맵지 않게</small><br>鸳鸯锅 <small>위안양궈 — 훠궈 반반냄비</small></div>
+        <div class="zh">不要辣 <small>부야오라 — 맵지 않게</small> · 鸳鸯锅 <small>위안양궈 — 훠궈 반반냄비</small></div>
         <div class="ko">맵지 않은 음식 또는 반반냄비를 요청할 때 사용합니다.</div>
       </div>
     </div>
@@ -1047,12 +1038,12 @@ footer {
     <h2>10. 추천 식당</h2>
     <p class="note">쓰촨 음식은 매운맛이 강한 편이지만 주문 시 “부야오라(不要辣, 맵지 않게)”라고 요청하면 맵기를 조절할 수 있습니다.</p>
     <ul class="picks">
-      <li><strong>하이디라오 海底捞</strong><span class="heat mild">순한 선택 가능</span><br><span>토마토탕과 버섯탕 등 맵지 않은 육수를 함께 선택할 수 있어 가족 식사에 적합한 훠궈 체인입니다.</span></li>
-      <li><strong>샤오룽칸 小龙坎</strong><span class="heat">매운맛</span><br><span>청두식 훠궈를 대표하는 체인입니다. 반반냄비(鸳鸯锅)를 선택하면 맑은 육수와 매운 육수를 함께 이용할 수 있습니다.</span></li>
-      <li><strong>천마파두부 본점 陈麻婆豆腐</strong><span class="heat">보통</span><br><span>마파두부로 알려진 식당이며 궁바오지딩 등 비교적 덜 매운 요리를 함께 주문할 수 있습니다. 브레이크타임은 14:30~17:00입니다.</span></li>
-      <li><strong>룽차오셔우 龙抄手 (춘시루점)</strong><span class="heat mild">순한 선택 가능</span><br><span>완탕과 청두식 면 요리를 판매합니다. 맑은 국물의 칭탕차오셔우(清汤抄手)는 매운맛 부담이 적습니다.</span></li>
-      <li><strong>중수이자오 钟水饺</strong><span class="heat mild">순한맛</span><br><span>달콤한 간장소스를 곁들인 물만두로 알려져 있으며 춘시루 일대에 여러 지점이 있습니다.</span></li>
-      <li><strong>깅코 银杏 (진리중루)</strong><span class="heat mild">맵지 않음</span><br><span>무후사 인근의 고급 레스토랑으로 광둥식 딤섬과 비교적 순한 요리를 선택할 수 있습니다.</span></li>
+      <li><strong>하이디라오 海底捞</strong><span class="heat mild">순한 선택 가능</span> <span>토마토탕과 버섯탕 등 맵지 않은 육수를 함께 선택할 수 있어 가족 식사에 적합한 훠궈 체인입니다.</span></li>
+      <li><strong>샤오룽칸 小龙坎</strong><span class="heat">매운맛</span> <span>청두식 훠궈를 대표하는 체인입니다. 반반냄비(鸳鸯锅)를 선택하면 맑은 육수와 매운 육수를 함께 이용할 수 있습니다.</span></li>
+      <li><strong>천마파두부 본점 陈麻婆豆腐</strong><span class="heat">보통</span> <span>마파두부로 알려진 식당이며 궁바오지딩 등 비교적 덜 매운 요리를 함께 주문할 수 있습니다. 브레이크타임은 14:30~17:00입니다.</span></li>
+      <li><strong>룽차오셔우 龙抄手 (춘시루점)</strong><span class="heat mild">순한 선택 가능</span> <span>완탕과 청두식 면 요리를 판매합니다. 맑은 국물의 칭탕차오셔우(清汤抄手)는 매운맛 부담이 적습니다.</span></li>
+      <li><strong>중수이자오 钟水饺</strong><span class="heat mild">순한맛</span> <span>달콤한 간장소스를 곁들인 물만두로 알려져 있으며 춘시루 일대에 여러 지점이 있습니다.</span></li>
+      <li><strong>깅코 银杏 (진리중루)</strong><span class="heat mild">맵지 않음</span> <span>무후사 인근의 고급 레스토랑으로 광둥식 딤섬과 비교적 순한 요리를 선택할 수 있습니다.</span></li>
     </ul>
   </section>
 
@@ -1064,7 +1055,7 @@ footer {
         <ul>
           <li>청두 가족 연락처: <strong>가족방에 저장된 번호</strong> · 한국 휴대전화에서는 국가번호 +86을 사용합니다.</li>
           <li>중국 긴급: 경찰 <strong>110</strong> · 구급차 <strong>120</strong> · 화재 <strong>119</strong></li>
-          <li>주청두 대한민국 총영사관: +86-28-8616-5800 (평일) · 긴급 +86-139-8095-6348 <br>진장구 둥위제 18호 바이양빌딩 14층 (锦江区东御街18号百扬大厦14楼)</li>
+          <li>주청두 대한민국 총영사관: +86-28-8616-5800 (평일) · 긴급 +86-139-8095-6348 · 진장구 둥위제 18호 바이양빌딩 14층 (锦江区东御街18号百扬大厦14楼)</li>
           <li>외교부 영사콜센터 (24시간, 서울): +82-2-3210-0404</li>
         </ul>
       </div>
