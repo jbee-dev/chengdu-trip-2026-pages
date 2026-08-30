@@ -64,16 +64,15 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .topnav .guide-link { margin-left: 0.5rem; border: 1px solid var(--rule-strong); border-radius: 0.5rem; background: var(--surface); color: var(--ink); }
 .page { max-width: 70rem; margin: 0 auto; padding: 4.5rem 1.5rem 7rem; display: flex; flex-direction: column; gap: 4.5rem; }
 .masthead { display: flex; flex-direction: column; gap: 1.35rem; }
-.kicker { color: var(--accent); font: 500 0.72rem/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
 h1 { margin: 0; max-width: 50rem; font: 700 clamp(2.35rem, 6vw, 3.6rem)/1.15 var(--serif); letter-spacing: -0.015em; }
-.lead { margin: 0; max-width: 48rem; color: var(--ink-2); font-size: 1.0625rem; }
+.lead { margin: 0; color: var(--ink-2); font-size: 1.0625rem; }
 .status-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 1.4rem; background: var(--accent-soft); }
 .status-card strong { display: block; font-size: 1rem; }
 .status-card span { color: var(--ink-2); font-size: 0.875rem; }
 .progress { flex: 0 0 auto; color: var(--accent); font: 500 1rem/1 var(--mono); }
 section { display: flex; flex-direction: column; gap: 1.5rem; scroll-margin-top: 5.25rem; }
 h2 { margin: 0; padding-bottom: 0; font: 700 1.6rem/1.3 var(--serif); }
-.note { margin: 0; max-width: 48rem; color: var(--ink-2); font-size: 0.9375rem; }
+.note { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
 .task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .task { min-height: 8.5rem; display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.9rem; align-items: start; padding: 1.35rem; background: var(--surface); cursor: pointer; }
 .task:hover { background: var(--sunk); }
@@ -140,9 +139,8 @@ footer { padding-top: 0; color: var(--ink-3); font-size: 0.8125rem; }
 
 <main class="page" id="main-content">
   <header class="masthead">
-    <div class="kicker">Pre-departure Checklist · Chengdu &amp; Jiuzhaigou</div>
     <h1>청두·구채구 출발 전 준비</h1>
-    <p class="lead">예약, 바우처 확인, 결제·통신 설정과 입국 서류처럼 출발 전에 완료해야 하는 항목만 모은 준비 페이지입니다. 여행 중 확인할 확정 일정과 현지 안내는 메인 일정표에서 확인합니다.</p>
+    <p class="lead">출발 전에 완료해야 하는 예약, 바우처, 결제·통신 설정과 입국 서류를 정리한 준비 페이지입니다.</p>
     <div class="status-card" aria-live="polite">
       <div><strong>준비 진행률</strong><span>체크 상태는 현재 브라우저에 자동으로 저장됩니다.</span></div>
       <div class="progress" id="progress">0 / 10 완료</div>
